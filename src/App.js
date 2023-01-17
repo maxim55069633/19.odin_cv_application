@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
+import GeneralInformation from "./components/GeneralInformation";
+import EducationalExperience from "./components/EducationalExperience";
+import PracticalExperience from "./components/PracticalExperience";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      general: this.props.general,
+    };
+    this.generalSubmit = this.generalSubmit.bind(this);
+  }
+
+  generalSubmit(temp_general) {
+    this.setState({
+      //   isEditing: !this.state.isEditing,
+      general: temp_general,
+    });
+  }
+
+  render() {
+    return (
+      <div>
+        <h1>CV Application</h1>
+        <GeneralInformation
+          general={this.state.general}
+          generalSubmit={this.generalSubmit}
+        />
+        <EducationalExperience educational={this.props.educational} />
+        <PracticalExperience practical={this.props.practical} />
+      </div>
+    );
+  }
 }
 
 export default App;
