@@ -8,14 +8,27 @@ class App extends Component {
     super(props);
     this.state = {
       general: this.props.general,
+      educational: this.props.educational,
+      practical: this.props.practical,
     };
     this.generalSubmit = this.generalSubmit.bind(this);
+    this.educationalSubmit = this.educationalSubmit.bind(this);
+    this.practicalSubmit = this.practicalSubmit.bind(this);
   }
 
   generalSubmit(temp_general) {
     this.setState({
-      //   isEditing: !this.state.isEditing,
       general: temp_general,
+    });
+  }
+  educationalSubmit(temp_educational) {
+    this.setState({
+      educational: temp_educational,
+    });
+  }
+  practicalSubmit(temp_practical) {
+    this.setState({
+      practical: temp_practical,
     });
   }
 
@@ -27,8 +40,14 @@ class App extends Component {
           general={this.state.general}
           generalSubmit={this.generalSubmit}
         />
-        <EducationalExperience educational={this.props.educational} />
-        <PracticalExperience practical={this.props.practical} />
+        <EducationalExperience
+          educational={this.state.educational}
+          educationalSubmit={this.educationalSubmit}
+        />
+        <PracticalExperience
+          practical={this.state.practical}
+          practicalSubmit={this.practicalSubmit}
+        />
       </div>
     );
   }

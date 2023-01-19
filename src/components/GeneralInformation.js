@@ -23,7 +23,6 @@ class GeneralInformation extends Component {
   }
 
   editButtonClicked() {
-    console.log(this.state.isEditing);
     this.setState({
       isEditing: !this.state.isEditing,
       temp_name: this.props.general.name,
@@ -45,7 +44,6 @@ class GeneralInformation extends Component {
   }
 
   handleSubmit(event) {
-    console.log(this.state);
     this.setState({
       isEditing: !this.state.isEditing,
     });
@@ -85,16 +83,19 @@ class GeneralInformation extends Component {
           <form onSubmit={this.handleSubmit}>
             <label>Name: </label>
             <input
+              required
               value={this.state.temp_name}
               onChange={this.handleNameChange}
             ></input>
             <label>Email: </label>
             <input
+              required
               value={this.state.temp_email}
               onChange={this.handleEmailChange}
             ></input>
             <label>Phone Number: </label>
             <input
+              required
               value={this.state.temp_phone_number}
               onChange={this.handlePhoneNumberChange}
             ></input>
