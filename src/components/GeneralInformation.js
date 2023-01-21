@@ -4,7 +4,7 @@ class GeneralInformation extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isEditing: false,
+      isEditing: true,
       temp_name: this.props.general.name,
       temp_email: this.props.general.email,
       temp_phone_number: this.props.general.phone_number,
@@ -68,42 +68,61 @@ class GeneralInformation extends Component {
   render() {
     if (this.state.isEditing == false)
       return (
-        <div className="section">
-          <p>General Information:</p>
-          <p>Name: {this.props.general.name}</p>
-          <p>Email: {this.props.general.email}</p>
-          <p>Phone Number: {this.props.general.phone_number}</p>
-          <button onClick={this.editButtonClicked}>Edit</button>
+        <div className="section view">
+          <div>General Information:</div>
+          <div>
+            <span>Name: </span>
+            <span>{this.props.general.name}</span>
+          </div>
+          <div>
+            <span>Email: </span> <span>{this.props.general.email}</span>
+          </div>
+          <div>
+            <span>Phone Number: </span>
+            <span>{this.props.general.phone_number}</span>
+          </div>
+          <div>
+            <button onClick={this.editButtonClicked}>Edit</button>
+          </div>
         </div>
       );
     else
       return (
-        <div className="section">
-          <p>Edit your general information:</p>
+        <div className="section edit">
+          <div>Edit your general information:</div>
           <form onSubmit={this.handleSubmit}>
-            <label>Name: </label>
-            <input
-              required
-              value={this.state.temp_name}
-              onChange={this.handleNameChange}
-            ></input>
-            <label>Email: </label>
-            <input
-              required
-              value={this.state.temp_email}
-              onChange={this.handleEmailChange}
-            ></input>
-            <label>Phone Number: </label>
-            <input
-              required
-              value={this.state.temp_phone_number}
-              onChange={this.handlePhoneNumberChange}
-            ></input>
+            <div className="flex-item">
+              <label>Name: </label>
+              <input
+                required
+                value={this.state.temp_name}
+                onChange={this.handleNameChange}
+              ></input>
+            </div>
+            <div className="flex-item">
+              <label>Email: </label>
+              <input
+                required
+                value={this.state.temp_email}
+                onChange={this.handleEmailChange}
+              ></input>
+            </div>
 
-            <button type="button" onClick={this.editButtonClicked}>
-              Cancel
-            </button>
-            <button type="submit">Submit</button>
+            <div className="flex-item">
+              <label>Phone Number: </label>
+              <input
+                required
+                value={this.state.temp_phone_number}
+                onChange={this.handlePhoneNumberChange}
+              ></input>
+            </div>
+
+            <div className="flex-item">
+              <button type="button" onClick={this.editButtonClicked}>
+                Cancel
+              </button>
+              <button type="submit">Submit</button>
+            </div>
           </form>
         </div>
       );

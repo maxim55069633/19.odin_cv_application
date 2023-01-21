@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
+import "./styles/index.css";
 
 const DEFAULT_CV_GENERAL = {
   name: "Jaden Yuki",
@@ -11,8 +12,10 @@ const DEFAULT_CV_GENERAL = {
 const DEFAULT_CV_EDUCATIONAL = {
   school_name: "Duel Academy",
   title_of_study: "Hero Deck, BSc",
-  date_of_study_start: "Sept 1 3000",
-  date_of_study_end: "Jun 1 3003",
+  date_of_study_start: "3000-09-01",
+  // "Sept 1 3000",
+  date_of_study_end: "3003-06-01",
+  // "Jun 1 3003"
 };
 
 const DEFAULT_CV_Practical = {
@@ -23,8 +26,10 @@ const DEFAULT_CV_Practical = {
     "Complete weekly duel puzzles",
     "Sort out different cards accordingly",
   ],
-  date_of_work_start: "June 1 3003",
-  date_of_work_end: "Now",
+  date_of_work_start: "3003-06-01",
+  // "June 1 3003"
+  date_of_work_end: "3005-03-03",
+  // "Now" refers to today
 };
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

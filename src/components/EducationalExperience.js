@@ -4,7 +4,7 @@ class EducationalExperience extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isEditing: false,
+      isEditing: true,
       temp_school_name: this.props.educational.school_name,
       temp_title_of_study: this.props.educational.title_of_study,
       temp_date_of_study_start: this.props.educational.date_of_study_start,
@@ -54,8 +54,6 @@ class EducationalExperience extends Component {
   }
 
   handleSubmit(event) {
-    console.log(this.state);
-
     this.setState({
       isEditing: !this.state.isEditing,
     });
@@ -78,54 +76,100 @@ class EducationalExperience extends Component {
     event.preventDefault();
   }
 
+  displayDate(source) {
+    const stored_date = source.split("-");
+    const MONTHS = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sept",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    const result =
+      stored_date[0] +
+      " " +
+      MONTHS[Number(stored_date[1]) - 1] +
+      " " +
+      stored_date[2];
+
+    return result;
+  }
+
   render() {
     if (this.state.isEditing == false)
       return (
-        <div className="section">
-          <p>Educational Experience:</p>
-          <p>School Name: {this.props.educational.school_name}</p>
-          <p>Title of Study: {this.props.educational.title_of_study}</p>
-          <p>
-            {this.props.educational.date_of_study_start} -
-            {this.props.educational.date_of_study_end}
-          </p>
-          <button onClick={this.editButtonClicked}>Edit</button>
+        <div className="section view">
+          <div>Educational Experience:</div>
+          <div>
+            <span>School Name: </span>
+            <span>{this.props.educational.school_name}</span>
+          </div>
+          <div>
+            <span>Title of Study: </span>
+            <span>{this.props.educational.title_of_study}</span>
+          </div>
+          <div>
+            {this.displayDate(this.props.educational.date_of_study_start)} -{" "}
+            {this.displayDate(this.props.educational.date_of_study_end)}
+          </div>
+          <div>
+            <button onClick={this.editButtonClicked}>Edit</button>
+          </div>
         </div>
       );
     else
       return (
-        <div className="section">
-          <p>Edit your educational experience:</p>
+        <div className="section edit">
+          <div>Edit your educational experience:</div>
           <form onSubmit={this.handleSubmit}>
-            <label>School Name: </label>
-            <input
-              required
-              value={this.state.temp_school_name}
-              onChange={this.handleSchoolNameChange}
-            ></input>
-            <label>Title of Study: </label>
-            <input
-              required
-              value={this.state.temp_title_of_study}
-              onChange={this.handleTitleOfStudyChange}
-            ></input>
-            <label>From: </label>
-            <input
-              required
-              value={this.state.temp_date_of_study_start}
-              onChange={this.handleDateOfStudyStartChange}
-            ></input>
-            <label>To: </label>
-            <input
-              required
-              value={this.state.temp_date_of_study_end}
-              onChange={this.handleDateOfStudyEndChange}
-            ></input>
+            <div className="flex-item">
+              <label>School Name: </label>
+              <input
+                required
+                value={this.state.temp_school_name}
+                onChange={this.handleSchoolNameChange}
+              ></input>
+            </div>
+            <div className="flex-item">
+              <label>Title of Study: </label>
+              <input
+                required
+                value={this.state.temp_title_of_study}
+                onChange={this.handleTitleOfStudyChange}
+              ></input>
+            </div>
+            <div className="flex-item">
+              <label>From: </label>
+              <input
+                required
+                type="date"
+                value={this.state.temp_date_of_study_start}
+                onChange={this.handleDateOfStudyStartChange}
+              ></input>
+            </div>
+            <div className="flex-item">
+              <label>To: </label>
+              <input
+                required
+                type="date"
+                value={this.state.temp_date_of_study_end}
+                onChange={this.handleDateOfStudyEndChange}
+              ></input>
+            </div>
 
-            <button type="button" onClick={this.editButtonClicked}>
-              Cancel
-            </button>
-            <button type="submit">Submit</button>
+            <div className="flex-item">
+              <button type="button" onClick={this.editButtonClicked}>
+                Cancel
+              </button>
+              <button type="submit">Submit</button>
+            </div>
           </form>
         </div>
       );

@@ -1,0 +1,57 @@
+h1 {
+  text-align: center;
+  font-size: 25px;
+}
+
+* {
+  font-size: 16px;
+}
+
+input {
+  width: 300px;
+}
+
+.section {
+  margin: 20px;
+  padding: 10px;
+  border: 1px solid black;
+}
+
+button {
+  height: 40px;
+  width: 200px;
+  font-size: 20px;
+}
+
+div[class="section edit"] > form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  padding: 0 200px;
+}
+
+div[class="section edit"] form > .flex-item {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  justify-items: center;
+}
+
+div[class="section view"] {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+div[class="section view"] > div {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+
+  padding: 0 200px;
+}
+
+.practical-task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}

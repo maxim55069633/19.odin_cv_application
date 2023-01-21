@@ -6,7 +6,7 @@ class PracticalExperience extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isEditing: false,
+      isEditing: true,
       temp_company_name: this.props.practical.company_name,
       temp_position_title: this.props.practical.position_title,
 
@@ -118,6 +118,32 @@ class PracticalExperience extends Component {
     event.preventDefault();
   }
 
+  displayDate(source) {
+    const stored_date = source.split("-");
+    const MONTHS = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sept",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+    const result =
+      stored_date[0] +
+      " " +
+      MONTHS[Number(stored_date[1]) - 1] +
+      " " +
+      stored_date[2];
+
+    return result;
+  }
+
   render() {
     let main_tasks_of_the_jobs = "";
     if (this.state.isEditing == true) {
@@ -149,41 +175,56 @@ class PracticalExperience extends Component {
 
     if (this.state.isEditing == false)
       return (
-        <div className="section">
-          <p>Practical Experience:</p>
-          <p>Company Name: {this.props.practical.company_name}</p>
-          <p>Position Title: {this.props.practical.position_title}</p>
+        <div className="section view">
+          <div>Practical Experience:</div>
           <div>
-            Main Tasks of Your Jobs: <ul>{main_tasks_of_the_jobs()}</ul>
+            <span>Company Name: </span>
+            <span>{this.props.practical.company_name}</span>
           </div>
-          <p>
-            {this.props.practical.date_of_work_start} -{" "}
-            {this.props.practical.date_of_work_end}
-          </p>
-          <button onClick={this.editButtonClicked}>Edit</button>
+          <div>
+            <span>Position Title: </span>
+            <span>{this.props.practical.position_title}</span>
+          </div>
+          <div>
+            <span>Main Tasks of Your Jobs: </span>
+            <span>
+              <ul>{main_tasks_of_the_jobs()}</ul>
+            </span>
+          </div>
+          <div>
+            {this.displayDate(this.props.practical.date_of_work_start)} -{" "}
+            {this.displayDate(this.props.practical.date_of_work_end)}
+          </div>
+          <div>
+            <button onClick={this.editButtonClicked}>Edit</button>
+          </div>
         </div>
       );
     else
       return (
-        <div className="section">
-          <p>Edit your practical experience:</p>
+        <div className="section edit">
+          <div>Edit your practical experience:</div>
           <form onSubmit={this.handleSubmit}>
-            <label>Company Name: </label>
-            <input
-              required
-              value={this.state.temp_company_name}
-              onChange={this.handleCompanyNameChange}
-            ></input>
-            <label>Position Title: </label>
-            <input
-              required
-              value={this.state.temp_position_title}
-              onChange={this.handlePositionTitleChange}
-            ></input>
-            <div>
-              Main Tasks of Your Jobs:{" "}
-              <ul>
-                {main_tasks_of_the_jobs()}
+            <div className="flex-item">
+              <label>Company Name: </label>
+              <input
+                required
+                value={this.state.temp_company_name}
+                onChange={this.handleCompanyNameChange}
+              ></input>
+            </div>
+            <div className="flex-item">
+              <label>Position Title: </label>
+              <input
+                required
+                value={this.state.temp_position_title}
+                onChange={this.handlePositionTitleChange}
+              ></input>
+            </div>
+            <div className="flex-item">
+              <div>Main Tasks of Your Jobs: </div>
+              <ul className="practical-task-list">
+                <div>{main_tasks_of_the_jobs()}</div>
 
                 <input
                   id="add_new_task"
@@ -195,24 +236,32 @@ class PracticalExperience extends Component {
                 </button>
               </ul>
             </div>
-            <label>From: </label>
-            <input
-              required
-              value={this.state.temp_date_of_work_start}
-              onChange={this.handleDateOfWorkStartChange}
-            ></input>
+            <div className="flex-item">
+              <label>From: </label>
+              <input
+                required
+                type="date"
+                value={this.state.temp_date_of_work_start}
+                onChange={this.handleDateOfWorkStartChange}
+              ></input>
+            </div>
 
-            <label>To: </label>
-            <input
-              required
-              value={this.state.temp_date_of_work_end}
-              onChange={this.handleDateOfWorkEndChange}
-            ></input>
+            <div className="flex-item">
+              <label>To: </label>
+              <input
+                required
+                type="date"
+                value={this.state.temp_date_of_work_end}
+                onChange={this.handleDateOfWorkEndChange}
+              ></input>
+            </div>
 
-            <button type="button" onClick={this.editButtonClicked}>
-              Cancel
-            </button>
-            <button type="submit">Submit</button>
+            <div className="flex-item">
+              <button type="button" onClick={this.editButtonClicked}>
+                Cancel
+              </button>
+              <button type="submit">Submit</button>
+            </div>
           </form>
         </div>
       );
