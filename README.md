@@ -2,6 +2,8 @@
 
 [Task Description](https://www.theodinproject.com/lessons/node-path-javascript-cv-application)
 
+[Live Preview](https://maxim55069633.github.io/19.odin_cv_application/)
+
 It's my first react project. I make heavy use of state and props.
 
 I learn:
