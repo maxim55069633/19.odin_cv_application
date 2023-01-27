@@ -1,124 +1,107 @@
-import React, { Component } from "react";
+import React, { Component, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
-class PracticalExperience extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isEditing: true,
-      temp_company_name: this.props.practical.company_name,
-      temp_position_title: this.props.practical.position_title,
+const PracticalExperience = (props) => {
+  const [isEditing, setIsEditing] = useState(true);
+  const [temp_company_name, setTemp_company_name] = useState(
+    props.practical.company_name
+  );
+  const [temp_position_title, setTemp_position_title] = useState(
+    props.practical.position_title
+  );
+  const [temp_main_tasks_of_the_jobs, setTemp_main_tasks_of_the_jobs] =
+    useState(props.practical.main_tasks_of_the_jobs);
+  const [temp_date_of_work_start, setTemp_date_of_work_start] = useState(
+    props.practical.date_of_work_start
+  );
+  const[temp_date_of_work_end, setTemp_date_of_work_end] = useState(
+    props.practical.date_of_work_end
+  );
+  const [temp_new_task, setTemp_new_task] = useState("");
+  const [temp_practical, setTemp_practical] = useState({
+    company_name: props.practical.company_name,
+    position_title: props.practical.position_title,
 
-      temp_main_tasks_of_the_jobs: this.props.practical.main_tasks_of_the_jobs,
-      temp_date_of_work_start: this.props.practical.date_of_work_start,
-      temp_date_of_work_end: this.props.practical.date_of_work_end,
-      temp_new_task: "",
-      temp_practical: {
-        company_name: this.props.practical.company_name,
-        position_title: this.props.practical.position_title,
+    main_tasks_of_the_jobs: props.practical.main_tasks_of_the_jobs,
+    date_of_work_start: props.practical.date_of_work_start,
+    date_of_work_end: props.practical.date_of_work_end,
+  });
 
-        main_tasks_of_the_jobs: this.props.practical.main_tasks_of_the_jobs,
-        date_of_work_start: this.props.practical.date_of_work_start,
-        date_of_work_end: this.props.practical.date_of_work_end,
-      },
-    };
+  const editButtonClicked = () => {
+    setIsEditing(!isEditing);
+    setTemp_company_name(props.practical.company_name);
+    setTemp_position_title(props.practical.position_title);
+    setTemp_main_tasks_of_the_jobs(props.practical.main_tasks_of_the_jobs);
+    setTemp_date_of_work_start(props.practical.date_of_work_start);
+    setTemp_date_of_work_end(props.practical.date_of_work_end);
+    setTemp_new_task("");
+  };
 
-    this.editButtonClicked = this.editButtonClicked.bind(this);
-    this.handleCompanyNameChange = this.handleCompanyNameChange.bind(this);
-    this.handlePositionTitleChange = this.handlePositionTitleChange.bind(this);
+  const handleCompanyNameChange = (event) => {
+    setTemp_company_name(event.target.value);
+  };
 
-    this.handleDateOfWorkStartChange =
-      this.handleDateOfWorkStartChange.bind(this);
-    this.handleDateOfWorkEndChange = this.handleDateOfWorkEndChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+  const handlePositionTitleChange = (event) => {
+    setTemp_position_title(event.target.value);
+  };
 
-    this.handleNewTaskChange = this.handleNewTaskChange.bind(this);
-    this.AddNewTask = this.AddNewTask.bind(this);
-    this.DeleteTask = this.DeleteTask.bind(this);
-  }
+  const handleDateOfWorkStartChange = (event) => {
+    setTemp_date_of_work_start(event.target.value);
+  };
 
-  editButtonClicked() {
-    this.setState({
-      isEditing: !this.state.isEditing,
-      temp_company_name: this.props.practical.company_name,
-      temp_position_title: this.props.practical.position_title,
-      temp_main_tasks_of_the_jobs: this.props.practical.main_tasks_of_the_jobs,
-      temp_date_of_work_start: this.props.practical.date_of_work_start,
-      temp_date_of_work_end: this.props.practical.date_of_work_end,
+  const handleDateOfWorkEndChange = (event) => {
+    setTemp_date_of_work_end(event.target.value);
+  };
 
-      temp_new_task: "",
-    });
-  }
+  const handleNewTaskChange = (event) => {
+    setTemp_new_task(event.target.value);
+  };
 
-  handleCompanyNameChange(event) {
-    this.setState({ temp_company_name: event.target.value });
-  }
-
-  handlePositionTitleChange(event) {
-    this.setState({ temp_position_title: event.target.value });
-  }
-
-  handleDateOfWorkStartChange(event) {
-    this.setState({ temp_date_of_work_start: event.target.value });
-  }
-
-  handleDateOfWorkEndChange(event) {
-    this.setState({ temp_date_of_work_end: event.target.value });
-  }
-
-  handleNewTaskChange(event) {
-    this.setState({ temp_new_task: event.target.value });
-  }
-
-  AddNewTask(event) {
-    event.preventDefault();
+  const AddNewTask = (event) => {
     const target = document.querySelector("#add_new_task");
-    console.log(target.value);
 
-    if (target.value != "")
-      this.setState({
-        temp_main_tasks_of_the_jobs:
-          this.state.temp_main_tasks_of_the_jobs.concat(target.value),
-        temp_new_task: "",
-      });
-  }
+    if (target.value != "") {
+      setTemp_main_tasks_of_the_jobs(
+        temp_main_tasks_of_the_jobs.concat(target.value)
+      );
+      setTemp_new_task("");
+    }
 
-  DeleteTask(event, id) {
     event.preventDefault();
-    console.log(id);
-    const test = this.state.temp_main_tasks_of_the_jobs.filter(
-      (item, index) => {
-        return `task-${index}` != id;
-      }
-    );
-    this.setState({
-      temp_main_tasks_of_the_jobs: test,
+  };
+
+  const DeleteTask = (event, id) => {
+    const test = temp_main_tasks_of_the_jobs.filter((item, index) => {
+      return `task-${index}` != id;
     });
-  }
 
-  handleSubmit(event) {
-    this.setState(
-      {
-        isEditing: !this.state.isEditing,
-        temp_practical: {
-          ...this.state.temp_practical,
-          company_name: this.state.temp_company_name,
-          position_title: this.state.temp_position_title,
-          main_tasks_of_the_jobs: this.state.temp_main_tasks_of_the_jobs,
-          date_of_work_start: this.state.temp_date_of_work_start,
-          date_of_work_end: this.state.temp_date_of_work_end,
-        },
-      },
-      () => {
-        this.props.practicalSubmit(this.state.temp_practical);
-      }
-    );
+    setTemp_main_tasks_of_the_jobs(test);
 
     event.preventDefault();
-  }
+  };
 
-  displayDate(source) {
+  const handleSubmit = (event) => {
+    setIsEditing(!isEditing);
+    setTemp_practical({
+      ...temp_practical,
+      company_name: temp_company_name,
+      position_title: temp_position_title,
+      main_tasks_of_the_jobs: temp_main_tasks_of_the_jobs,
+      date_of_work_start: temp_date_of_work_start,
+      date_of_work_end: temp_date_of_work_end,
+    });
+
+    event.preventDefault();
+  };
+
+  useEffect(
+    () => {
+      props.practicalSubmit(temp_practical);
+    }
+    , [temp_practical]);
+    
+  const displayDate = (source) => {
     const stored_date = source.split("-");
     const MONTHS = [
       "Jan",
@@ -142,130 +125,128 @@ class PracticalExperience extends Component {
       stored_date[2];
 
     return result;
+  };
+
+  let main_tasks_of_the_jobs = "";
+  if (isEditing == true) {
+    main_tasks_of_the_jobs = () => {
+      return temp_main_tasks_of_the_jobs.map((item, index) => {
+        return (
+          <li key={`task-${index}`} id={`task-${index}`}>
+            {item}
+            <FontAwesomeIcon
+              icon={faTrash}
+              onClick={(event) => DeleteTask(event, `task-${index}`)}
+            />
+            ;
+          </li>
+        );
+      });
+    };
+  } else {
+    main_tasks_of_the_jobs = () => {
+      return temp_main_tasks_of_the_jobs.map((item, index) => {
+        return (
+          <li key={`task-${index}`} id={`task-${index}`}>
+            {item}
+          </li>
+        );
+      });
+    };
   }
 
-  render() {
-    let main_tasks_of_the_jobs = "";
-    if (this.state.isEditing == true) {
-      main_tasks_of_the_jobs = () => {
-        return this.state.temp_main_tasks_of_the_jobs.map((item, index) => {
-          return (
-            <li key={`task-${index}`} id={`task-${index}`}>
-              {item}
-              <FontAwesomeIcon
-                icon={faTrash}
-                onClick={(event) => this.DeleteTask(event, `task-${index}`)}
-              />
-              ;
-            </li>
-          );
-        });
-      };
-    } else {
-      main_tasks_of_the_jobs = () => {
-        return this.state.temp_main_tasks_of_the_jobs.map((item, index) => {
-          return (
-            <li key={`task-${index}`} id={`task-${index}`}>
-              {item}
-            </li>
-          );
-        });
-      };
-    }
-
-    if (this.state.isEditing == false)
-      return (
-        <div className="section view">
-          <div>Practical Experience:</div>
-          <div>
-            <span>Company Name: </span>
-            <span>{this.props.practical.company_name}</span>
-          </div>
-          <div>
-            <span>Position Title: </span>
-            <span>{this.props.practical.position_title}</span>
-          </div>
-          <div>
-            <span>Main Tasks of Your Jobs: </span>
-            <span>
-              <ul>{main_tasks_of_the_jobs()}</ul>
-            </span>
-          </div>
-          <div>
-            {this.displayDate(this.props.practical.date_of_work_start)} -{" "}
-            {this.displayDate(this.props.practical.date_of_work_end)}
-          </div>
-          <div>
-            <button onClick={this.editButtonClicked}>Edit</button>
-          </div>
+  if (isEditing == false)
+    return (
+      <div className="section view">
+        <div>Practical Experience:</div>
+        <div>
+          <span>Company Name: </span>
+          <span>{props.practical.company_name}</span>
         </div>
-      );
-    else
-      return (
-        <div className="section edit">
-          <div>Edit your practical experience:</div>
-          <form onSubmit={this.handleSubmit}>
-            <div className="flex-item">
-              <label>Company Name: </label>
-              <input
-                required
-                value={this.state.temp_company_name}
-                onChange={this.handleCompanyNameChange}
-              ></input>
-            </div>
-            <div className="flex-item">
-              <label>Position Title: </label>
-              <input
-                required
-                value={this.state.temp_position_title}
-                onChange={this.handlePositionTitleChange}
-              ></input>
-            </div>
-            <div className="flex-item">
-              <div>Main Tasks of Your Jobs: </div>
-              <ul className="practical-task-list">
-                <div>{main_tasks_of_the_jobs()}</div>
+        <div>
+          <span>Position Title: </span>
+          <span>{props.practical.position_title}</span>
+        </div>
+        <div>
+          <span>Main Tasks of Your Jobs: </span>
+          <span>
+            <ul>{main_tasks_of_the_jobs()}</ul>
+          </span>
+        </div>
+        <div>
+          {displayDate(props.practical.date_of_work_start)} -{" "}
+          {displayDate(props.practical.date_of_work_end)}
+        </div>
+        <div>
+          <button onClick={editButtonClicked}>Edit</button>
+        </div>
+      </div>
+    );
+  else
+    return (
+      <div className="section edit">
+        <div>Edit your practical experience:</div>
+        <form onSubmit={handleSubmit}>
+          <div className="flex-item">
+            <label>Company Name: </label>
+            <input
+              required
+              value={temp_company_name}
+              onChange={handleCompanyNameChange}
+            ></input>
+          </div>
+          <div className="flex-item">
+            <label>Position Title: </label>
+            <input
+              required
+              value={temp_position_title}
+              onChange={handlePositionTitleChange}
+            ></input>
+          </div>
+          <div className="flex-item">
+            <div>Main Tasks of Your Jobs: </div>
+            <ul className="practical-task-list">
+              <div>{main_tasks_of_the_jobs()}</div>
 
-                <input
-                  id="add_new_task"
-                  value={this.state.temp_new_task}
-                  onChange={this.handleNewTaskChange}
-                ></input>
-                <button type="button" onClick={this.AddNewTask}>
-                  Add a new task
-                </button>
-              </ul>
-            </div>
-            <div className="flex-item">
-              <label>From: </label>
               <input
-                required
-                type="date"
-                value={this.state.temp_date_of_work_start}
-                onChange={this.handleDateOfWorkStartChange}
+                id="add_new_task"
+                value={temp_new_task}
+                onChange={handleNewTaskChange}
               ></input>
-            </div>
-
-            <div className="flex-item">
-              <label>To: </label>
-              <input
-                required
-                type="date"
-                value={this.state.temp_date_of_work_end}
-                onChange={this.handleDateOfWorkEndChange}
-              ></input>
-            </div>
-
-            <div className="flex-item">
-              <button type="button" onClick={this.editButtonClicked}>
-                Cancel
+              <button type="button" onClick={AddNewTask}>
+                Add a new task
               </button>
-              <button type="submit">Submit</button>
-            </div>
-          </form>
-        </div>
-      );
-  }
-}
+            </ul>
+          </div>
+          <div className="flex-item">
+            <label>From: </label>
+            <input
+              required
+              type="date"
+              value={temp_date_of_work_start}
+              onChange={handleDateOfWorkStartChange}
+            ></input>
+          </div>
+
+          <div className="flex-item">
+            <label>To: </label>
+            <input
+              required
+              type="date"
+              value={temp_date_of_work_end}
+              onChange={handleDateOfWorkEndChange}
+            ></input>
+          </div>
+
+          <div className="flex-item">
+            <button type="button" onClick={editButtonClicked}>
+              Cancel
+            </button>
+            <button type="submit">Submit</button>
+          </div>
+        </form>
+      </div>
+    );
+};
 
 export default PracticalExperience;

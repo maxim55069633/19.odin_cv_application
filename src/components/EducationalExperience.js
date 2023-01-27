@@ -1,82 +1,68 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 
-class EducationalExperience extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isEditing: true,
-      temp_school_name: this.props.educational.school_name,
-      temp_title_of_study: this.props.educational.title_of_study,
-      temp_date_of_study_start: this.props.educational.date_of_study_start,
-      temp_date_of_study_end: this.props.educational.date_of_study_end,
-      temp_educational: {
-        school_name: this.props.educational.school_name,
-        title_of_study: this.props.educational.title_of_study,
-        date_of_study_start: this.props.educational.date_of_study_start,
-        date_of_study_end: this.props.educational.date_of_study_end,
-      },
-    };
+const EducationalExperience = (props) => {
+  const [isEditing, setIsEditing] = useState(true);
+  const [temp_school_name, setTemp_school_name] = useState(
+    props.educational.school_name
+  );
+  const [temp_title_of_study, setTemp_title_of_study] = useState(
+    props.educational.title_of_study
+  );
+  const [temp_date_of_study_start, setTemp_date_of_study_start] = useState(
+    props.educational.date_of_study_start
+  );
+  const [temp_date_of_study_end, setTemp_date_of_study_end] = useState(
+    props.educational.date_of_study_end
+  );
+  const [temp_educational, setTemp_educational] = useState({
+    school_name: props.educational.school_name,
+    title_of_study: props.educational.title_of_study,
+    date_of_study_start: props.educational.date_of_study_start,
+    date_of_study_end: props.educational.date_of_study_end,
+  });
 
-    this.editButtonClicked = this.editButtonClicked.bind(this);
-    this.handleSchoolNameChange = this.handleSchoolNameChange.bind(this);
-    this.handleTitleOfStudyChange = this.handleTitleOfStudyChange.bind(this);
-    this.handleDateOfStudyStartChange =
-      this.handleDateOfStudyStartChange.bind(this);
-    this.handleDateOfStudyEndChange =
-      this.handleDateOfStudyEndChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+  const editButtonClicked = () => {
+    setIsEditing(!isEditing);
+    setTemp_school_name(props.educational.school_name);
+    setTemp_title_of_study(props.educational.title_of_study);
+    setTemp_date_of_study_start(props.educational.date_of_study_start);
+    setTemp_date_of_study_end(props.educational.date_of_study_end);
+  };
 
-  editButtonClicked() {
-    this.setState({
-      isEditing: !this.state.isEditing,
-      temp_school_name: this.props.educational.school_name,
-      temp_title_of_study: this.props.educational.title_of_study,
-      temp_date_of_study_start: this.props.educational.date_of_study_start,
-      temp_date_of_study_end: this.props.educational.date_of_study_end,
+  const handleSchoolNameChange = (event) => {
+    setTemp_school_name(event.target.value);
+  };
+
+  const handleTitleOfStudyChange = (event) => {
+    setTemp_title_of_study(event.target.value);
+  };
+
+  const handleDateOfStudyStartChange = (event) => {
+    setTemp_date_of_study_start(event.target.value);
+  };
+
+  const handleDateOfStudyEndChange = (event) => {
+    setTemp_date_of_study_end(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    setIsEditing(!isEditing);
+    setTemp_educational({
+      ...temp_educational,
+      school_name: temp_school_name,
+      title_of_study: temp_title_of_study,
+      date_of_study_start: temp_date_of_study_start,
+      date_of_study_end: temp_date_of_study_end,
     });
-  }
-
-  handleSchoolNameChange(event) {
-    this.setState({ temp_school_name: event.target.value });
-  }
-
-  handleTitleOfStudyChange(event) {
-    this.setState({ temp_title_of_study: event.target.value });
-  }
-
-  handleDateOfStudyStartChange(event) {
-    this.setState({ temp_date_of_study_start: event.target.value });
-  }
-
-  handleDateOfStudyEndChange(event) {
-    this.setState({ temp_date_of_study_end: event.target.value });
-  }
-
-  handleSubmit(event) {
-    this.setState({
-      isEditing: !this.state.isEditing,
-    });
-
-    this.setState(
-      {
-        temp_educational: {
-          ...this.state.temp_educational,
-          school_name: this.state.temp_school_name,
-          title_of_study: this.state.temp_title_of_study,
-          date_of_study_start: this.state.temp_date_of_study_start,
-          date_of_study_end: this.state.temp_date_of_study_end,
-        },
-      },
-      () => {
-        this.props.educationalSubmit(this.state.temp_educational);
-      }
-    );
 
     event.preventDefault();
-  }
+  };
 
-  displayDate(source) {
+  useEffect(() => {
+    props.educationalSubmit(temp_educational);
+  }, [temp_educational]);
+
+  const displayDate = (source) => {
     const stored_date = source.split("-");
     const MONTHS = [
       "Jan",
@@ -100,80 +86,78 @@ class EducationalExperience extends Component {
       stored_date[2];
 
     return result;
-  }
+  };
 
-  render() {
-    if (this.state.isEditing == false)
-      return (
-        <div className="section view">
-          <div>Educational Experience:</div>
-          <div>
-            <span>School Name: </span>
-            <span>{this.props.educational.school_name}</span>
-          </div>
-          <div>
-            <span>Title of Study: </span>
-            <span>{this.props.educational.title_of_study}</span>
-          </div>
-          <div>
-            {this.displayDate(this.props.educational.date_of_study_start)} -{" "}
-            {this.displayDate(this.props.educational.date_of_study_end)}
-          </div>
-          <div>
-            <button onClick={this.editButtonClicked}>Edit</button>
-          </div>
+  if (isEditing == false)
+    return (
+      <div className="section view">
+        <div>Educational Experience:</div>
+        <div>
+          <span>School Name: </span>
+          <span>{props.educational.school_name}</span>
         </div>
-      );
-    else
-      return (
-        <div className="section edit">
-          <div>Edit your educational experience:</div>
-          <form onSubmit={this.handleSubmit}>
-            <div className="flex-item">
-              <label>School Name: </label>
-              <input
-                required
-                value={this.state.temp_school_name}
-                onChange={this.handleSchoolNameChange}
-              ></input>
-            </div>
-            <div className="flex-item">
-              <label>Title of Study: </label>
-              <input
-                required
-                value={this.state.temp_title_of_study}
-                onChange={this.handleTitleOfStudyChange}
-              ></input>
-            </div>
-            <div className="flex-item">
-              <label>From: </label>
-              <input
-                required
-                type="date"
-                value={this.state.temp_date_of_study_start}
-                onChange={this.handleDateOfStudyStartChange}
-              ></input>
-            </div>
-            <div className="flex-item">
-              <label>To: </label>
-              <input
-                required
-                type="date"
-                value={this.state.temp_date_of_study_end}
-                onChange={this.handleDateOfStudyEndChange}
-              ></input>
-            </div>
+        <div>
+          <span>Title of Study: </span>
+          <span>{props.educational.title_of_study}</span>
+        </div>
+        <div>
+          {displayDate(props.educational.date_of_study_start)} -{" "}
+          {displayDate(props.educational.date_of_study_end)}
+        </div>
+        <div>
+          <button onClick={editButtonClicked}>Edit</button>
+        </div>
+      </div>
+    );
+  else
+    return (
+      <div className="section edit">
+        <div>Edit your educational experience:</div>
+        <form onSubmit={handleSubmit}>
+          <div className="flex-item">
+            <label>School Name: </label>
+            <input
+              required
+              value={temp_school_name}
+              onChange={handleSchoolNameChange}
+            ></input>
+          </div>
+          <div className="flex-item">
+            <label>Title of Study: </label>
+            <input
+              required
+              value={temp_title_of_study}
+              onChange={handleTitleOfStudyChange}
+            ></input>
+          </div>
+          <div className="flex-item">
+            <label>From: </label>
+            <input
+              required
+              type="date"
+              value={temp_date_of_study_start}
+              onChange={handleDateOfStudyStartChange}
+            ></input>
+          </div>
+          <div className="flex-item">
+            <label>To: </label>
+            <input
+              required
+              type="date"
+              value={temp_date_of_study_end}
+              onChange={handleDateOfStudyEndChange}
+            ></input>
+          </div>
 
-            <div className="flex-item">
-              <button type="button" onClick={this.editButtonClicked}>
-                Cancel
-              </button>
-              <button type="submit">Submit</button>
-            </div>
-          </form>
-        </div>
-      );
-  }
-}
+          <div className="flex-item">
+            <button type="button" onClick={editButtonClicked}>
+              Cancel
+            </button>
+            <button type="submit">Submit</button>
+          </div>
+        </form>
+      </div>
+    );
+};
 
 export default EducationalExperience;
